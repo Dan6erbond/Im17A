@@ -15,8 +15,9 @@ import {
     WithStyles
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import FunctionsIcon from '@material-ui/icons/Functions';
+import {Link} from "react-router-dom";
+import HomeIcon from '@material-ui/icons/Home';
 
 interface NavigationState {
     drawerOpen: boolean;
@@ -50,7 +51,7 @@ export default class Navigation extends React.Component<WithStyles<typeof styles
                             Im17A
                         </Typography>
                         <div className={classes.grow}/>
-                        <Button color="inherit">Home</Button>
+                        <Button color="inherit" component={Link} to="/">Startseite</Button>
                     </Toolbar>
                 </AppBar>
 
@@ -66,27 +67,16 @@ export default class Navigation extends React.Component<WithStyles<typeof styles
                     }}
                 >
                     <List>
-                        <ListItem>
+                        <ListItem button component={Link} to="/">
                             <ListItemText primary="Im17A" classes={{primary: classes.drawerTitle}}/>
                         </ListItem>
                     </List>
                     <Divider/>
                     <List>
-                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                                <ListItemText primary={text}/>
-                            </ListItem>
-                        ))}
-                    </List>
-                    <Divider/>
-                    <List>
-                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                                <ListItemText primary={text}/>
-                            </ListItem>
-                        ))}
+                        <ListItem button component={Link} to="/calculator">
+                            <ListItemIcon><FunctionsIcon/></ListItemIcon>
+                            <ListItemText>Notenrechner</ListItemText>
+                        </ListItem>
                     </List>
                 </SwipeableDrawer>
             </React.Fragment>
