@@ -86,4 +86,12 @@ export const styles = (theme: Theme) => createStyles({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+    table: {
+        minWidth: 650,
+    },
 });
