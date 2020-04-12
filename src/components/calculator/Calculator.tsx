@@ -286,7 +286,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                     <Button variant="contained" color="primary" onClick={() => {
                         const {cookies} = this.props;
                         if (cookies) {
-                            cookies.set("subjects", JSON.stringify(this.state.subjects), {path: "/calculator"});
+                            cookies.set("subjects", JSON.stringify(this.state.subjects));
                         }
                     }}>
                         Save
