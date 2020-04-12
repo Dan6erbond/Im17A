@@ -94,4 +94,13 @@ export const styles = (theme: Theme) => createStyles({
     table: {
         minWidth: 650,
     },
+    verticalTabsRoot: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+        display: 'flex',
+    },
+    tabs: {
+        minWidth: 150,
+        borderRight: `1px solid ${theme.palette.divider}`,
+    },
 });
