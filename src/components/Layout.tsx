@@ -18,9 +18,13 @@ export default function Layout(props: LayoutProps & WithStyles<typeof styles>){
 
             <Navigation classes={classes} />
 
-            <Container maxWidth="md">
+            <br/>
+
+            <Container maxWidth="lg">
                 {props.children}
             </Container>
+
+            <br/>
 
             <ScrollTop {...props}>
                 <Fab color="secondary" size="small" aria-label="scroll back to top">

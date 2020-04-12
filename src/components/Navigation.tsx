@@ -17,7 +17,6 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import FunctionsIcon from '@material-ui/icons/Functions';
 import {Link} from "react-router-dom";
-import HomeIcon from '@material-ui/icons/Home';
 
 interface NavigationState {
     drawerOpen: boolean;

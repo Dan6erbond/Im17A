@@ -2,8 +2,8 @@ import React from 'react';
 import './App.css';
 import {Box, WithStyles} from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
-import Layout from "./Layout";
-import {styles} from './styles';
+import Layout from "./components/Layout";
+import {styles} from './components/styles';
 import {Route, Switch} from 'react-router';
 import {BrowserRouter as Router} from 'react-router-dom';
 
