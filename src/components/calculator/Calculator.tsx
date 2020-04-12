@@ -12,13 +12,20 @@ import {
     TableBody, Button
 } from "@material-ui/core";
 import {styles} from "../styles";
+import {ReactCookieProps} from "react-cookie";
 
 class Subject {
     grades = [0, 0, 0, 0, 0, 0, 0];
     name: string;
 
-    constructor(name: string) {
+    constructor(name: string = "") {
         this.name = name;
+    }
+
+    copyInto(v: any) {
+        this.grades = v.grades;
+        this.name = v.name;
+        return this;
     }
 
     average(): number {
@@ -61,7 +68,7 @@ class History extends Subject {
 }
 
 class Sciences extends Subject {
-    grades = [0, 0, 0, 0, -1, -1, -1];
+    grades = [0, 0, -1, -1, -1, -1, -1];
 
     constructor() {
         super("Technik und Umwelt");
@@ -71,11 +78,9 @@ class Sciences extends Subject {
 
 class Project extends Subject {
     grades = [-1, -1, -1, -1, -1, -1, -1];
-    index: number;
 
     constructor(name: string, index: number) {
         super(name);
-        this.index = index;
         this.grades[index] = 0;
     }
 
@@ -83,55 +88,114 @@ class Project extends Subject {
 
 interface CalculatorState {
     subjects: Subject[];
+    average: number;
+    minusPoints: number;
 }
 
-export default class Calculator extends React.Component<WithStyles<typeof styles>, CalculatorState> {
-    constructor(props: WithStyles<typeof styles>) {
+export default class Calculator extends React.Component<WithStyles<typeof styles> & ReactCookieProps, CalculatorState> {
+    constructor(props: WithStyles<typeof styles> & ReactCookieProps) {
         super(props);
 
-        const subjects: Subject[] = [
-            new Subject("Deutsch"),
-            new Subject("Französisch"),
-            new Subject("Englisch"),
-            new Subject("Mathematik"),
-            new Subject("Finanz- und Rechnungswesen"),
-            new Subject("Wirtschaft und Recht"),
-            new History(),
-            new Sciences(),
-            new Project("IDAF FRW", 2),
-            new Project("IDAF Informatik", 2),
-            new Project("IDAF Deutsch", 4),
-            new Project("IDAF Wirtschaft", 4),
-            new Project("IDPA", 6)
-        ];
-
-        this.state = {subjects: subjects};
-
         this.setGrade = this.setGrade.bind(this);
-        this.getAverage = this.getAverage.bind(this);
+        this.calculate = this.calculate.bind(this);
+
+        let subjects: Subject[];
+
+        const {cookies} = this.props;
+
+        if (cookies) {
+            subjects = cookies.get("subjects");
+            for (let i = 0; i < subjects.length; i++) {
+                let s = new Subject();
+                subjects[i] = s.copyInto(subjects[i]);
+            }
+        } else {
+            subjects = [
+                new Subject("Deutsch"),
+                new Subject("Französisch"),
+                new Subject("Englisch"),
+                new Subject("Mathematik"),
+                new Subject("Finanz- und Rechnungswesen"),
+                new Subject("Wirtschaft und Recht"),
+                new History(),
+                new Sciences(),
+                new Project("IDAF FRW", 2),
+                new Project("IDAF Informatik", 2),
+                new Project("IDAF Deutsch", 4),
+                new Project("IDAF Wirtschaft", 4),
+                new Project("IDPA", 6)
+            ];
+        }
+
+        this.state = {subjects: subjects, average: 0, minusPoints: 0};
+    }
+
+    componentDidMount() {
+        this.calculate();
     }
 
     private setGrade(grade: string, subjectIndex: number, gradeIndex: number) {
         let g = Number(grade);
-        let subjects = this.state.subjects;
+        let {subjects} = this.state;
         subjects[subjectIndex].grades[gradeIndex] = g;
-        this.setState({subjects: subjects});
+        this.setState({subjects: subjects}, this.calculate);
     }
 
-    private getAverage() {
+    private calculate() {
+        let mp = 0;
+
         let sum = 0;
         let cnt = 0;
 
-        this.state.subjects.forEach(s => {
+        let {subjects} = this.state;
+
+        let pSum = 0;
+        let pCnt = 0;
+
+        let fp = 0;
+
+        for (let i = 0; i < subjects.length; i++) {
+            let s = subjects[i];
             let avg = s.average();
 
             if (avg !== 0) {
-                sum += avg;
-                cnt++;
-            }
-        });
+                if (i < subjects.length - 5) {
+                    console.log(`Subject: ${avg}`);
+                    sum += avg;
+                    cnt++;
 
-        return cnt > 0 ? sum / cnt : 0;
+                    if (avg < 4)
+                        mp += 4 - avg;
+                } else if (i === subjects.length - 1) {
+                    console.log(`Final project: ${avg}`);
+                    fp = avg;
+                } else {
+                    console.log(`Project: ${avg}`);
+                    pSum += avg;
+                    pCnt++;
+                }
+            }
+        }
+
+        let pAvg = 0;
+
+        if (pCnt !== 0 && fp !== 0){
+            let spAvg = pSum / pCnt;
+            pAvg = (spAvg + fp) / 2;
+            pAvg = Math.round(pAvg * 2) / 2;
+
+            if (pAvg < 4)
+                mp += 4 - pAvg;
+        }
+
+        let avg = 0;
+
+        if (cnt !== 0 && pAvg !== 0) {
+            avg = (sum + pAvg) / (cnt + 1);
+            console.log(`Average: ${avg}`);
+        }
+
+        this.setState({average: avg, minusPoints: mp});
     }
 
     render() {
@@ -180,7 +244,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                                         <TableCell align="right">
                                             <TextField size="small" id={`grade-${i}-average`} label="Durchschnitt"
                                                        variant="outlined" value={s.average()}
-                                                       InputProps={{readOnly: true,}}
+                                                       InputProps={{readOnly: true,}} error={s.average() < 4}
                                                        type="number" InputLabelProps={{shrink: true}}/>
                                         </TableCell>
                                     </TableRow>
@@ -192,7 +256,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                                     ))}
                                     <TableCell align="right">
                                         <TextField size="small" id={`average`} label="Durchschnitt"
-                                                   variant="outlined" value={this.getAverage()}
+                                                   variant="outlined" value={this.state.average}
                                                    InputProps={{readOnly: true,}}
                                                    type="number" InputLabelProps={{shrink: true}}/>
                                     </TableCell>
@@ -202,9 +266,22 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                     </TableContainer>
                 </form>
 
-                <Button variant="contained" color="primary" onClick={() => {alert(JSON.stringify(this.state.subjects))}}>
-                    Print
-                </Button>
+                <br/>
+
+                <p>Minuspunkte: {this.state.minusPoints}</p>
+
+                <br/>
+
+                <div style={{textAlign: 'right', paddingBottom: '50px'}}>
+                    <Button variant="contained" color="primary" onClick={() => {
+                        const {cookies} = this.props;
+                        if (cookies) {
+                            cookies.set("subjects", JSON.stringify(this.state.subjects), {path: "/calculator"});
+                        }
+                    }}>
+                        Save
+                    </Button>
+                </div>
             </React.Fragment>
         );
     }
