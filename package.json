@@ -2,6 +2,7 @@
   "name": "im17a",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@material-ui/core": "^4.9.9",
     "@material-ui/icons": "^4.9.1",
@@ -29,6 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./postbuild.ps1",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
