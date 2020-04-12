@@ -5,13 +5,12 @@ import {withStyles} from '@material-ui/core/styles';
 import Layout from "./components/Layout";
 import {styles} from './components/styles';
 import {Route, Switch} from 'react-router';
-import {BrowserRouter as Router} from 'react-router-dom';
+import Calculator from "./components/calculator/Calculator";
 
 function App(props: WithStyles<typeof styles>) {
     const {classes} = props;
 
     return (
-        <Router>
             <Layout classes={classes}>
                 <Switch>
                     <Route path="/" exact>
@@ -26,9 +25,11 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
                                 .join('\n')}
                         </Box>
                     </Route>
+                    <Route path="/calculator">
+                        <Calculator classes={classes}/>
+                    </Route>
                 </Switch>
             </Layout>
-        </Router>
     );
 }
 
