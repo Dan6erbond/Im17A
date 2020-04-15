@@ -9,10 +9,11 @@ import {
     TableHead,
     TableRow,
     TableCell,
-    TableBody, Button, Badge
+    TableBody, Button, Badge, CardContent, Card, CardActions
 } from "@material-ui/core";
 import {styles} from "../styles";
 import {ReactCookieProps} from "react-cookie";
+import {Link} from "react-router-dom";
 
 class Subject {
     grades: number[];
@@ -50,7 +51,6 @@ class Subject {
 
         return !isNaN(avg) ? avg : 0;
     }
-
 }
 
 class History extends Subject {
@@ -59,7 +59,6 @@ class History extends Subject {
     constructor() {
         super("Geschichte und Politik");
     }
-
 }
 
 class Sciences extends Subject {
@@ -68,7 +67,6 @@ class Sciences extends Subject {
     constructor() {
         super("Technik und Umwelt");
     }
-
 }
 
 class Project extends Subject {
@@ -78,69 +76,26 @@ class Project extends Subject {
         super(name);
         this.grades[index] = 0;
     }
-
 }
 
-interface CalculatorState {
+class Subjects {
     subjects: Subject[];
-    average: number;
-    minusPoints: number;
-    projectMinusPoints: number;
-}
+    average: number = 0;
+    minusPoints: number = 0;
+    projectMinusPoints: number = 0;
 
-export default class Calculator extends React.Component<WithStyles<typeof styles> & ReactCookieProps, CalculatorState> {
-    constructor(props: WithStyles<typeof styles> & ReactCookieProps) {
-        super(props);
-
-        this.setGrade = this.setGrade.bind(this);
-        this.calculate = this.calculate.bind(this);
-
-        let subjects: Subject[];
-
-        const {cookies} = this.props;
-        subjects = cookies ? cookies.get("subjects") : undefined;
-
-        if (subjects) {
-            subjects = subjects.map(s => new Subject("", s));
-        } else {
-            subjects = [
-                new Subject("Deutsch"),
-                new Subject("Französisch"),
-                new Subject("Englisch"),
-                new Subject("Mathematik"),
-                new Subject("Finanz- und Rechnungswesen"),
-                new Subject("Wirtschaft und Recht"),
-                new History(),
-                new Sciences(),
-                new Project("IDAF FRW", 2),
-                new Project("IDAF Informatik", 2),
-                new Project("IDAF Deutsch", 4),
-                new Project("IDAF Wirtschaft", 4),
-                new Project("IDPA", 6)
-            ];
-        }
-
-        this.state = {subjects: subjects, average: 0, minusPoints: 0, projectMinusPoints: 0};
+    constructor(subjects: Subject[]) {
+        this.subjects = subjects;
     }
 
-    componentDidMount() {
-        this.calculate();
-    }
+    calculate() {
+        const subjects = this.subjects;
 
-    private setGrade(grade: string, subjectIndex: number, gradeIndex: number) {
-        let g = Number(grade);
-        let {subjects} = this.state;
-        subjects[subjectIndex].grades[gradeIndex] = g;
-        this.setState({subjects: subjects}, this.calculate);
-    }
-
-    private calculate() {
         let mp = 0;
 
         let sum = 0;
         let cnt = 0;
-
-        let {subjects} = this.state;
+        ;
 
         let pSum = 0;
         let pCnt = 0;
@@ -186,11 +141,125 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
             avg = (sum + pAvg) / (cnt + 1);
         }
 
-        this.setState({average: avg, minusPoints: mp, projectMinusPoints: pmp});
+        this.average = avg;
+        this.minusPoints = mp;
+        this.projectMinusPoints = pmp;
+    }
+}
+
+interface CalculatorState {
+    subjects?: Subjects;
+}
+
+export class CalculatorSmall extends React.Component<WithStyles<typeof styles> & ReactCookieProps, CalculatorState> {
+    constructor(props: WithStyles<typeof styles> & ReactCookieProps) {
+        super(props);
+
+        let subjects: Subject[];
+
+        const {cookies} = this.props;
+        subjects = cookies ? cookies.get("subjects") : undefined;
+
+        if (subjects) {
+            subjects = subjects.map(s => new Subject("", s));
+            this.state = {subjects: new Subjects(subjects)};
+        } else {
+            this.state = {subjects: undefined}
+        }
+    }
+
+    componentDidMount() {
+        const {subjects} = this.state;
+        if (subjects) {
+            subjects.calculate();
+            this.setState({subjects: subjects});
+        }
     }
 
     render() {
         const {classes} = this.props;
+        const {subjects} = this.state;
+
+        return (
+            <Card className={classes.cardsRoot}>
+                <CardContent>
+                    <Typography className={classes.cardsTitle} color="textSecondary" gutterBottom>
+                        Notenrechner
+                    </Typography>
+                    {subjects ? <div>
+                        <Typography variant="h5" component="h2">
+                            Durchschnitt: {subjects.average}
+                        </Typography>
+                        <Typography variant="body2" component="p">
+                            Minuspunkte: {subjects.minusPoints}
+                        </Typography>
+                    </div> : <div>
+                        <Typography variant="h6" component="h2">
+                            Noch keine Noten eingetragen
+                        </Typography>
+                    </div>}
+                </CardContent>
+                <CardActions>
+                    <Button size="small" component={Link} to="/calculator">Zum Notenrechner</Button>
+                </CardActions>
+            </Card>
+        );
+    }
+}
+
+export default class Calculator extends React.Component<WithStyles<typeof styles> & ReactCookieProps, CalculatorState> {
+    constructor(props: WithStyles<typeof styles> & ReactCookieProps) {
+        super(props);
+
+        this.setGrade = this.setGrade.bind(this);
+
+        let subjects: Subject[];
+
+        const {cookies} = this.props;
+        subjects = cookies ? cookies.get("subjects") : undefined;
+
+        if (subjects) {
+            subjects = subjects.map(s => new Subject("", s));
+        } else {
+            subjects = [
+                new Subject("Deutsch"),
+                new Subject("Französisch"),
+                new Subject("Englisch"),
+                new Subject("Mathematik"),
+                new Subject("Finanz- und Rechnungswesen"),
+                new Subject("Wirtschaft und Recht"),
+                new History(),
+                new Sciences(),
+                new Project("IDAF FRW", 2),
+                new Project("IDAF Informatik", 2),
+                new Project("IDAF Deutsch", 4),
+                new Project("IDAF Wirtschaft", 4),
+                new Project("IDPA", 6)
+            ];
+        }
+
+        this.state = {subjects: new Subjects(subjects)};
+    }
+
+    componentDidMount() {
+        const subjects = this.state.subjects!!;
+        subjects.calculate();
+        this.setState({subjects: subjects});
+    }
+
+    private setGrade(grade: string, subjectIndex: number, gradeIndex: number) {
+        let g = Number(grade);
+        let subjects = this.state.subjects!!;
+
+        subjects.subjects[subjectIndex].grades[gradeIndex] = g;
+
+        subjects.calculate();
+        this.setState({subjects: subjects});
+    }
+
+    render() {
+        const {classes} = this.props;
+        const subjects = this.state.subjects!!;
 
         return (
             <React.Fragment>
@@ -214,7 +283,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.subjects.map((s, i) => (
+                            {subjects.subjects.map((s, i) => (
                                 <TableRow key={i}>
                                     <TableCell component="th" scope="row">
                                         {s.name}
@@ -234,13 +303,13 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                                     ))}
                                     <TableCell align="right" style={{width: '140px'}}>
                                         <Badge color="secondary"
-                                               badgeContent={-(i < this.state.subjects.length - 5 && s.average() > 0 ?
-                                                   Math.max(4 - s.average(), 0) : this.state.projectMinusPoints)}>
+                                               badgeContent={-(i < subjects.subjects.length - 5 && s.average() > 0 ?
+                                                   Math.max(4 - s.average(), 0) : subjects.projectMinusPoints)}>
                                             <TextField size="small" id={`grade-${i}-average`} label="Durchschnitt"
                                                        variant="outlined" value={s.average()}
                                                        InputProps={{readOnly: true,}}
-                                                       error={(i < this.state.subjects.length - 5 && s.average() < 4 && s.average() > 0) ||
-                                                       (i >= this.state.subjects.length - 5 && this.state.projectMinusPoints > 0)}
+                                                       error={(i < subjects.subjects.length - 5 && s.average() < 4 && s.average() > 0) ||
+                                                       (i >= subjects.subjects.length - 5 && subjects.projectMinusPoints > 0)}
                                                        type="number" InputLabelProps={{shrink: true,}}/>
                                         </Badge>
                                     </TableCell>
@@ -253,7 +322,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                                 ))}
                                 <TableCell align="right">
                                     <TextField size="small" id={`average`} label="Durchschnitt"
-                                               variant="outlined" value={this.state.average.toPrecision(2)}
+                                               variant="outlined" value={subjects.average.toPrecision(2)}
                                                InputProps={{readOnly: true,}}
                                                type="number" InputLabelProps={{shrink: true}}/>
                                 </TableCell>
@@ -261,7 +330,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                             <TableRow>
                                 <TableCell align="right" colSpan={9}>
                                     <Typography variant="body1"
-                                                color={this.state.minusPoints <= 2 ? "textPrimary" : "error"}>Minuspunkte: {this.state.minusPoints}</Typography>
+                                                color={subjects.minusPoints <= 2 ? "textPrimary" : "error"}>Minuspunkte: {subjects.minusPoints}</Typography>
                                 </TableCell>
                             </TableRow>
                         </TableBody>
@@ -274,7 +343,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                     <Button variant="contained" color="primary" onClick={() => {
                         const {cookies} = this.props;
                         if (cookies) {
-                            cookies.set("subjects", JSON.stringify(this.state.subjects));
+                            cookies.set("subjects", JSON.stringify(subjects.subjects));
                         }
                     }}>
                         Save

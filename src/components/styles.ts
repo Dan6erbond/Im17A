@@ -94,7 +94,7 @@ export const styles = (theme: Theme) => createStyles({
         display: 'flex',
     },
     tabs: {
-        minWidth: 150,
+        minWidth: 200,
         borderRight: `1px solid ${theme.palette.divider}`,
     },
     cardsRoot: {
@@ -131,5 +131,16 @@ export const styles = (theme: Theme) => createStyles({
         position: 'absolute',
         top: 20,
         width: 1,
+    },
+    gridListRoot: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
+        backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+        width: 500,
+        height: 450,
     },
 });

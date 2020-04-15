@@ -1,6 +1,6 @@
 import * as React from "react";
 import {
-    Button, Checkbox, createStyles,
+    Button, Card, CardActions, CardContent, Checkbox, createStyles, Grid, GridList,
     IconButton, lighten,
     Paper,
     Table,
@@ -18,6 +18,7 @@ import {saveAs} from 'file-saver';
 import {makeStyles} from "@material-ui/core/styles";
 import clsx from 'clsx';
 import moment from 'moment';
+import {Link} from "react-router-dom";
 
 interface SummarySpecs {
     subject: string;
@@ -205,8 +206,82 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
     );
 };
 
-interface SummariesProps {
+interface SummariesSmallState {
+    summaries: Summary[];
+}
 
+export class SummariesSmall extends React.Component<WithStyles<typeof styles>, SummariesSmallState> {
+    constructor(props: WithStyles<typeof styles>) {
+        super(props);
+
+        this.state = {summaries: []};
+
+        this.fetchData = this.fetchData.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    private fetchData() {
+        fetch(`${process.env.PUBLIC_URL}/res/docs/summaries/summaries.json`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                return response.json() as Promise<SummarySpecs[]>;
+            })
+            .then(data => {
+                let summaries = data.map(s => new Summary(s));
+                this.setState({summaries: summaries});
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    render() {
+        const {classes} = this.props;
+        const {summaries} = this.state;
+
+        return (
+            <div className={classes.gridListRoot}>
+                {summaries.length > 0 ?
+                    <Grid container spacing={1}>
+                        {stableSort(summaries, getComparator('desc', 'parsedDate'))
+                            .slice(0, 5)
+                            .map((summary, index) =>
+                                <Grid item xs={12} sm={6} key={index}>
+                                    <Card className={classes.cardsRoot} variant="outlined">
+                                        <CardContent>
+                                            <Typography className={classes.cardsTitle} color="textSecondary"
+                                                        gutterBottom>
+                                                {summary.date}
+                                            </Typography>
+                                            <Typography variant="h5" component="h2">
+                                                {summary.topic}
+                                            </Typography>
+                                            <Typography variant="body2" component="p" gutterBottom>
+                                                {summary.subject}
+                                            </Typography>
+                                            <Typography className={classes.pos} color="textSecondary">
+                                                {summary.author}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <Button size="small" href={summary.filepath} download startIcon={<GetAppIcon/>}>
+                                                Herunterladen
+                                            </Button>
+                                            <Button size="small" component={Link} to="/summaries">
+                                                Zusammenfassungen
+                                            </Button>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>)}
+                    </Grid> : null}
+            </div>
+        );
+    }
 }
 
 interface SummariesState {
@@ -218,8 +293,8 @@ interface SummariesState {
     rowsPerPage: number;
 }
 
-export default class Summaries extends React.Component<SummariesProps & WithStyles<typeof styles>, SummariesState> {
-    constructor(props: SummariesProps & WithStyles<typeof styles>) {
+export default class Summaries extends React.Component<WithStyles<typeof styles>, SummariesState> {
+    constructor(props: WithStyles<typeof styles>) {
         super(props);
 
         this.state = {
@@ -414,7 +489,7 @@ export default class Summaries extends React.Component<SummariesProps & WithStyl
                                                         variant="contained"
                                                         className={classes.button}
                                                         startIcon={<GetAppIcon/>}>
-                                                        Download
+                                                        Herunterladen
                                                     </Button>
                                                 </TableCell>
                                             </TableRow>

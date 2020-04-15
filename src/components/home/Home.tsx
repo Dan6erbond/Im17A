@@ -1,8 +1,9 @@
 import {Tab, Tabs, WithStyles} from "@material-ui/core";
 import {styles} from "../styles";
 import React from "react";
-import Calculator from "../calculator/Calculator";
+import {CalculatorSmall} from "../calculator/Calculator";
 import {ReactCookieProps} from "react-cookie";
+import {SummariesSmall} from "../summaries/Summaries";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -50,10 +51,14 @@ export default function Home(props: WithStyles<typeof styles> & ReactCookieProps
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
             >
-                <Tab label="Notenrechner" {...a11yProps(0)} />
+                <Tab label="Zusammenfassungen" {...a11yProps(0)} />
+                <Tab label="Notenrechner" {...a11yProps(1)} />
             </Tabs>
             <TabPanel value={value} index={0}>
-                <Calculator classes={classes} cookies={cookies}/>
+                <SummariesSmall classes={classes}/>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                <CalculatorSmall classes={classes} cookies={cookies}/>
             </TabPanel>
         </div>
     );
