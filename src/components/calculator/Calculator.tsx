@@ -19,8 +19,8 @@ class Subject {
     name: string;
 
     constructor(name: string = "", v?: any) {
-        this.name = v && v.name || name;
-        this.grades = v && v.grades || [0, 0, 0, 0, 0, 0, 0];
+        this.name = v && v.name ? v.name : name;
+        this.grades = v && v.grades ? v.grades : [0, 0, 0, 0, 0, 0, 0];
     }
 
     average(): number {
