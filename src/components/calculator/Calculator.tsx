@@ -15,17 +15,12 @@ import {styles} from "../styles";
 import {ReactCookieProps} from "react-cookie";
 
 class Subject {
-    grades = [0, 0, 0, 0, 0, 0, 0];
+    grades: number[];
     name: string;
 
-    constructor(name: string = "") {
-        this.name = name;
-    }
-
-    copyInto(v: any) {
-        this.grades = v.grades;
-        this.name = v.name;
-        return this;
+    constructor(name: string = "", v?: any) {
+        this.name = v && v.name || name;
+        this.grades = v && v.grades || [0, 0, 0, 0, 0, 0, 0];
     }
 
     average(): number {
@@ -106,10 +101,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
         subjects = cookies ? cookies.get("subjects") : undefined;
 
         if (subjects) {
-            for (let i = 0; i < subjects.length; i++) {
-                let s = new Subject();
-                subjects[i] = s.copyInto(subjects[i]);
-            }
+            subjects = subjects.map(s => new Subject("", s));
         } else {
             subjects = [
                 new Subject("Deutsch"),
@@ -161,17 +153,14 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
 
             if (avg !== 0) {
                 if (i < subjects.length - 5) {
-                    console.log(`Subject: ${avg}`);
                     sum += avg;
                     cnt++;
 
                     if (avg < 4)
                         mp += 4 - avg;
                 } else if (i === subjects.length - 1) {
-                    console.log(`Final project: ${avg}`);
                     fp = avg;
                 } else {
-                    console.log(`Project: ${avg}`);
                     pSum += avg;
                     pCnt++;
                 }
@@ -195,7 +184,6 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
 
         if (cnt !== 0 && pAvg !== 0) {
             avg = (sum + pAvg) / (cnt + 1);
-            console.log(`Average: ${avg}`);
         }
 
         this.setState({average: avg, minusPoints: mp, projectMinusPoints: pmp});
