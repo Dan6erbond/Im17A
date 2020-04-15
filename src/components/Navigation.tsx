@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import FunctionsIcon from '@material-ui/icons/Functions';
+import DescriptionIcon from '@material-ui/icons/Description';
 import {Link} from "react-router-dom";
 
 interface NavigationState {
@@ -61,13 +62,17 @@ export default class Navigation extends React.Component<WithStyles<typeof styles
                     open={this.state.drawerOpen}
                     onClose={() => this.toggleDrawer(false)}
                     onOpen={() => this.toggleDrawer(true)}
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
                 >
                     <List>
                         <ListItem button component={Link} to="/">
                             <ListItemText primary="Im17A" classes={{primary: classes.drawerTitle}}/>
+                        </ListItem>
+                    </List>
+                    <Divider/>
+                    <List>
+                        <ListItem button component={Link} to="/summaries">
+                            <ListItemIcon><DescriptionIcon/></ListItemIcon>
+                            <ListItemText>Zusammenfassungen</ListItemText>
                         </ListItem>
                     </List>
                     <Divider/>

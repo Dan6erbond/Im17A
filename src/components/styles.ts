@@ -1,6 +1,4 @@
-import {createStyles, fade, Theme} from "@material-ui/core";
-
-const drawerWidth = 240;
+import {createStyles, fade, lighten, Theme} from "@material-ui/core";
 
 export const styles = (theme: Theme) => createStyles({
     root: {
@@ -10,7 +8,6 @@ export const styles = (theme: Theme) => createStyles({
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
             flexShrink: 0,
         },
     },
@@ -79,9 +76,6 @@ export const styles = (theme: Theme) => createStyles({
         },
     },
     toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-        width: drawerWidth,
-    },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
@@ -102,5 +96,40 @@ export const styles = (theme: Theme) => createStyles({
     tabs: {
         minWidth: 150,
         borderRight: `1px solid ${theme.palette.divider}`,
+    },
+    cardsRoot: {
+        minWidth: 275,
+    },
+    bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+    },
+    cardsTitle: {
+        fontSize: 14,
+    },
+    pos: {
+        marginBottom: 12,
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+    tableRoot: {
+        width: '100%',
+    },
+    tablePaper: {
+        width: '100%',
+        marginBottom: theme.spacing(2),
+    },
+    visuallyHidden: {
+        border: 0,
+        clip: 'rect(0 0 0 0)',
+        height: 1,
+        margin: -1,
+        overflow: 'hidden',
+        padding: 0,
+        position: 'absolute',
+        top: 20,
+        width: 1,
     },
 });

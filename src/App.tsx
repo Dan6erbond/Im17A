@@ -9,6 +9,7 @@ import Calculator from "./components/calculator/Calculator";
 import {ReactCookieProps, withCookies} from 'react-cookie';
 import {compose} from 'redux';
 import Home from "./components/home/Home";
+import Summaries from "./components/summaries/Summaries";
 
 function App(props: WithStyles<typeof styles> & ReactCookieProps) {
     const {classes} = props;
@@ -21,6 +22,9 @@ function App(props: WithStyles<typeof styles> & ReactCookieProps) {
                     </Route>
                     <Route path="/calculator">
                         <Calculator classes={classes} cookies={props.cookies}/>
+                    </Route>
+                    <Route path="/summaries">
+                        <Summaries classes={classes}/>
                     </Route>
                 </Switch>
             </Layout>
