@@ -188,7 +188,7 @@ export class CalculatorSmall extends React.Component<WithStyles<typeof styles> &
                     </Typography>
                     {subjects ? <div>
                         <Typography variant="h5" component="h2">
-                            Durchschnitt: {subjects.average}
+                            Durchschnitt: {subjects.average.toPrecision(2)}
                         </Typography>
                         <Typography variant="body2" component="p">
                             Minuspunkte: {subjects.minusPoints}
@@ -346,7 +346,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                             cookies.set("subjects", JSON.stringify(subjects.subjects));
                         }
                     }}>
-                        Save
+                        Speichern
                     </Button>
                 </div>
             </React.Fragment>
