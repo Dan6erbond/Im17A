@@ -1,9 +1,9 @@
-import {AppBar, Paper, Tab, Tabs, useMediaQuery, useTheme, WithStyles} from "@material-ui/core";
+import {Tab, Tabs, useMediaQuery, useTheme, WithStyles} from "@material-ui/core";
 import {styles} from "../styles";
 import React from "react";
 import {CalculatorSmall} from "../calculator/Calculator";
 import {ReactCookieProps} from "react-cookie";
-import {SummariesSmall} from "../summaries/Summaries";
+import SummariesContainer from "../summaries/Summaries";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -67,7 +67,7 @@ export default function Home(props: WithStyles<typeof styles> & ReactCookieProps
                     <Tab label="Notenrechner" {...a11yProps(1)} />
                 </Tabs>}
             <TabPanel value={value} index={0}>
-                <SummariesSmall classes={classes}/>
+                <SummariesContainer component="SummariesSmall" classes={classes}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <CalculatorSmall classes={classes} cookies={cookies}/>

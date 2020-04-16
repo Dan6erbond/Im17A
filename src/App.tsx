@@ -9,7 +9,7 @@ import Calculator from "./components/calculator/Calculator";
 import {ReactCookieProps, withCookies} from 'react-cookie';
 import {compose} from 'redux';
 import Home from "./components/home/Home";
-import Summaries from "./components/summaries/Summaries";
+import SummariesContainer from "./components/summaries/Summaries";
 
 const theme = createMuiTheme();
 
@@ -27,7 +27,7 @@ function App(props: WithStyles<typeof styles> & ReactCookieProps) {
                         <Calculator classes={classes} cookies={props.cookies}/>
                     </Route>
                     <Route path="/summaries">
-                        <Summaries classes={classes}/>
+                        <SummariesContainer component="Summaries" classes={classes}/>
                     </Route>
                 </Switch>
             </Layout>

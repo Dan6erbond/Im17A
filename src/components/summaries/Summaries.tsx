@@ -7,7 +7,7 @@ import {
     TableCell,
     TableContainer,
     TableHead, TablePagination,
-    TableRow, TableSortLabel, Theme, Toolbar, Tooltip, Typography,
+    TableRow, TableSortLabel, Theme, Toolbar, Tooltip, Typography, useMediaQuery, useTheme,
     WithStyles
 } from "@material-ui/core";
 import {styles} from "../styles";
@@ -205,89 +205,54 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
     );
 };
 
-interface SummariesSmallState {
+interface SummariesProps {
+    dense: boolean;
     summaries: Summary[];
 }
 
-export class SummariesSmall extends React.Component<WithStyles<typeof styles>, SummariesSmallState> {
-    constructor(props: WithStyles<typeof styles>) {
-        super(props);
+function SummariesSmall(props: SummariesProps & WithStyles<typeof styles>) {
+    const {classes, summaries} = props;
 
-        this.state = {summaries: []};
-
-        this.fetchData = this.fetchData.bind(this);
-    }
-
-    componentDidMount() {
-        this.fetchData();
-    }
-
-    private fetchData() {
-        fetch(`${process.env.PUBLIC_URL}/res/docs/summaries/summaries.json`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
-                return response.json() as Promise<SummarySpecs[]>;
-            })
-            .then(data => {
-                let summaries = data.map(s => new Summary(s));
-                this.setState({summaries: summaries});
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
-
-    render() {
-        const {classes} = this.props;
-        const {summaries} = this.state;
-
-        return (
-            <div className={classes.gridListRoot}>
-                {summaries.length > 0 ?
-                    <Grid container spacing={1}>
-                        {stableSort(summaries, getComparator('desc', 'parsedDate'))
-                            .slice(0, 5)
-                            .map((summary, index) =>
-                                <Grid item xs={12} sm={6} key={index}>
-                                    <Card className={classes.cardsRoot}
-                                          style={{height: '100%', display: "grid", gridTemplateRows: "1fr auto"}}
-                                          variant="outlined">
-                                        <CardContent style={{alignSelf: "stretch"}}>
-                                            <Typography className={classes.cardsTitle} color="textSecondary"
-                                                        gutterBottom>
-                                                {summary.date}
-                                            </Typography>
-                                            <Typography variant="h5" component="h2">
-                                                {summary.topic}
-                                            </Typography>
-                                            <Typography variant="body2" component="p" gutterBottom>
-                                                {summary.subject}
-                                            </Typography>
-                                            <Typography className={classes.pos} color="textSecondary">
-                                                {summary.author}
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions>
-                                            <Button size="small" href={summary.filepath} download
-                                                    startIcon={<GetAppIcon/>}>
-                                                Herunterladen
-                                            </Button>
-                                            <Button size="small" component={Link} to="/summaries">
-                                                Zusammenfassungen
-                                            </Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>)}
-                    </Grid> : null}
-            </div>
-        );
-    }
+    return (
+        <div className={classes.gridListRoot}>
+            {summaries.length > 0 ?
+                <Grid container spacing={1}>
+                    {stableSort(summaries, getComparator('desc', 'parsedDate'))
+                        .slice(0, 5)
+                        .map((summary, index) =>
+                            <Grid item xs={12} sm={6} key={index}>
+                                <Card className={classes.cardsRoot}
+                                      style={{height: '100%', display: "grid", gridTemplateRows: "1fr auto"}}
+                                      variant="outlined">
+                                    <CardContent style={{alignSelf: "stretch"}}>
+                                        <Typography className={classes.cardsTitle} color="textSecondary"
+                                                    gutterBottom>
+                                            {summary.date}
+                                        </Typography>
+                                        <Typography variant="h5" component="h2">
+                                            {summary.topic}
+                                        </Typography>
+                                        <Typography variant="body2" component="p" gutterBottom>
+                                            {summary.subject}
+                                        </Typography>
+                                        <Typography className={classes.pos} color="textSecondary">
+                                            {summary.author}
+                                        </Typography>
+                                    </CardContent>
+                                    <CardActions>
+                                        <Button size="small" href={summary.filepath} download
+                                                startIcon={<GetAppIcon/>}>
+                                            Herunterladen
+                                        </Button>
+                                    </CardActions>
+                                </Card>
+                            </Grid>)}
+                </Grid> : null}
+        </div>
+    );
 }
 
 interface SummariesState {
-    summaries: Summary[];
     order: Order;
     orderBy: keyof Summary;
     selected: string[];
@@ -295,12 +260,11 @@ interface SummariesState {
     rowsPerPage: number;
 }
 
-export default class Summaries extends React.Component<WithStyles<typeof styles>, SummariesState> {
-    constructor(props: WithStyles<typeof styles>) {
+class Summaries extends React.Component<SummariesProps & WithStyles<typeof styles>, SummariesState> {
+    constructor(props: SummariesProps & WithStyles<typeof styles>) {
         super(props);
 
         this.state = {
-            summaries: [],
             order: 'desc',
             orderBy: "parsedDate",
             selected: [],
@@ -308,7 +272,6 @@ export default class Summaries extends React.Component<WithStyles<typeof styles>
             rowsPerPage: 5
         };
 
-        this.fetchData = this.fetchData.bind(this);
         this.setOrder = this.setOrder.bind(this);
         this.setOrderBy = this.setOrderBy.bind(this);
         this.setSelected = this.setSelected.bind(this);
@@ -317,10 +280,6 @@ export default class Summaries extends React.Component<WithStyles<typeof styles>
 
         this.downloadSelected = this.downloadSelected.bind(this);
         this.getSummaryBlobs = this.getSummaryBlobs.bind(this);
-    }
-
-    componentDidMount() {
-        this.fetchData();
     }
 
     private setOrder(order: Order) {
@@ -343,23 +302,6 @@ export default class Summaries extends React.Component<WithStyles<typeof styles>
         this.setState({rowsPerPage: rowsPerPage});
     }
 
-    private fetchData() {
-        fetch(`${process.env.PUBLIC_URL}/res/docs/summaries/summaries.json`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
-                return response.json() as Promise<SummarySpecs[]>;
-            })
-            .then(data => {
-                let summaries = data.map(s => new Summary(s));
-                this.setState({summaries: summaries});
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
-
     private getSummaryBlobs(summaries: Summary[], summaryCallback: (summary: Summary, blob: Blob) => void, callback: () => void) {
         if (summaries.length > 0) {
             const summary = summaries[0];
@@ -377,7 +319,8 @@ export default class Summaries extends React.Component<WithStyles<typeof styles>
     }
 
     private downloadSelected() {
-        const {summaries, selected} = this.state;
+        const {selected} = this.state;
+        const {summaries} = this.props;
         const selectedSummaries = selected.map(s => summaries.filter(summary => summary.filename === s)[0]);
 
         let zip = new JSZip();
@@ -392,8 +335,8 @@ export default class Summaries extends React.Component<WithStyles<typeof styles>
     }
 
     render() {
-        const {classes} = this.props;
-        const {summaries, order, orderBy, selected, page, rowsPerPage} = this.state;
+        const {classes, dense, summaries} = this.props;
+        const {order, orderBy, selected, page, rowsPerPage} = this.state;
 
         const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Summary) => {
             const isAsc = orderBy === property && order === 'asc';
@@ -440,13 +383,15 @@ export default class Summaries extends React.Component<WithStyles<typeof styles>
         };
 
         const isSelected = (filename: string) => selected.indexOf(filename) !== -1;
-
         return (
             <React.Fragment>
                 {summaries.length > 0 ? <Paper className={classes.paper}>
                     <EnhancedTableToolbar numSelected={selected.length} downloadSelected={this.downloadSelected}/>
                     <TableContainer>
-                        <Table className={classes.table} aria-label="simple table">
+                        <Table
+                            className={classes.table}
+                            aria-label="simple table"
+                            size={dense ? "small" : "medium"}>
                             <EnhancedTableHead
                                 classes={classes}
                                 numSelected={selected.length}
@@ -488,6 +433,7 @@ export default class Summaries extends React.Component<WithStyles<typeof styles>
                                                     <Button
                                                         href={summary.filepath}
                                                         download
+                                                        size={dense ? "small" : "medium"}
                                                         variant="contained"
                                                         className={classes.button}
                                                         startIcon={<GetAppIcon/>}>
@@ -513,4 +459,35 @@ export default class Summaries extends React.Component<WithStyles<typeof styles>
             </React.Fragment>
         );
     }
+}
+
+interface SummariesContainerProps {
+    component: "Summaries" | "SummariesSmall";
+}
+
+export default function SummariesContainer(props: SummariesContainerProps & WithStyles<typeof styles>) {
+    const {component, classes} = props;
+
+    const [summaries, setSummaries] = React.useState<Summary[]>([]);
+
+    fetch(`${process.env.PUBLIC_URL}/res/docs/summaries/summaries.json`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            return response.json() as Promise<SummarySpecs[]>;
+        })
+        .then(data => {
+            let summaries = data.map(s => new Summary(s));
+            setSummaries(summaries);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    const theme = useTheme();
+    const dense = !useMediaQuery(theme.breakpoints.up('md'));
+
+    return component === "Summaries" ? <Summaries classes={classes} dense={dense} summaries={summaries}/> :
+        <SummariesSmall classes={classes} summaries={summaries} dense={dense}/>;
 }
