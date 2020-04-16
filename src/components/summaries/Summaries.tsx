@@ -17,7 +17,6 @@ import {saveAs} from 'file-saver';
 import {makeStyles} from "@material-ui/core/styles";
 import clsx from 'clsx';
 import moment from 'moment';
-import {Link} from "react-router-dom";
 
 interface SummarySpecs {
     subject: string;
