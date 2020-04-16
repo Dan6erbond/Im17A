@@ -1,4 +1,4 @@
-﻿[
+[
 	{
 		"subject": "Geschichte",
 		"topic": "1. Weltkrieg",
@@ -327,6 +327,30 @@
 		"subject": "Französisch",
 		"topic": "Unité 3",
 		"date": "07.06.2019",
+		"author": "RaviAnand Mohabir"
+	},
+	{
+		"subject": "Wirtschaft",
+		"topic": "Familienrecht & Erbrecht",
+		"date": "07.03.2019",
+		"author": "RaviAnand Mohabir"
+	},
+	{
+		"subject": "Wirtschaft",
+		"topic": "Familienrecht & Erbrecht",
+		"date": "07.03.2019",
+		"author": "RaviAnand Mohabir"
+	},
+	{
+		"subject": "Wirtschaft",
+		"topic": "Arbeitsvertrag",
+		"date": "12.09.2019",
+		"author": "RaviAnand Mohabir"
+	},
+	{
+		"subject": "Wirtschaft",
+		"topic": "Versicherungen",
+		"date": "03.03.2020",
 		"author": "RaviAnand Mohabir"
 	}
 ]
