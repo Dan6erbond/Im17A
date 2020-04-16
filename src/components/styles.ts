@@ -88,12 +88,19 @@ export const styles = (theme: Theme) => createStyles({
     table: {
         minWidth: 650,
     },
+    horizontalTabsRoot: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+    },
     verticalTabsRoot: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
     },
-    tabs: {
+    horizontalTabs: {
+        borderBottom: `1px solid ${theme.palette.divider}`,
+    },
+    verticalTabs: {
         minWidth: 200,
         borderRight: `1px solid ${theme.palette.divider}`,
     },

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import {WithStyles} from '@material-ui/core';
-import {withStyles} from '@material-ui/core/styles';
+import {createMuiTheme, WithStyles} from '@material-ui/core';
+import {withStyles, ThemeProvider} from '@material-ui/core/styles';
 import Layout from "./components/Layout";
 import {styles} from './components/styles';
 import {Route, Switch} from 'react-router';
@@ -11,10 +11,13 @@ import {compose} from 'redux';
 import Home from "./components/home/Home";
 import Summaries from "./components/summaries/Summaries";
 
+const theme = createMuiTheme();
+
 function App(props: WithStyles<typeof styles> & ReactCookieProps) {
     const {classes} = props;
 
     return (
+        <ThemeProvider theme={theme}>
             <Layout classes={classes}>
                 <Switch>
                     <Route path="/" exact>
@@ -28,6 +31,7 @@ function App(props: WithStyles<typeof styles> & ReactCookieProps) {
                     </Route>
                 </Switch>
             </Layout>
+        </ThemeProvider>
     );
 }
 

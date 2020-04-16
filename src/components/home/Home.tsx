@@ -1,4 +1,4 @@
-import {Tab, Tabs, WithStyles} from "@material-ui/core";
+import {AppBar, Paper, Tab, Tabs, useMediaQuery, useTheme, WithStyles} from "@material-ui/core";
 import {styles} from "../styles";
 import React from "react";
 import {CalculatorSmall} from "../calculator/Calculator";
@@ -34,6 +34,8 @@ function a11yProps(index: any) {
 }
 
 export default function Home(props: WithStyles<typeof styles> & ReactCookieProps) {
+    const theme = useTheme();
+    const vertical = useMediaQuery(theme.breakpoints.up('md'));
     const {classes, cookies} = props;
     const [value, setValue] = React.useState(0);
 
@@ -42,18 +44,28 @@ export default function Home(props: WithStyles<typeof styles> & ReactCookieProps
     };
 
     return (
-        <div className={classes.verticalTabsRoot}>
-            <Tabs
-                orientation="vertical"
-                variant="scrollable"
-                value={value}
-                onChange={handleChange}
-                aria-label="Vertical tabs example"
-                className={classes.tabs}
-            >
-                <Tab label="Zusammenfassungen" {...a11yProps(0)} />
-                <Tab label="Notenrechner" {...a11yProps(1)} />
-            </Tabs>
+        <div className={vertical ? classes.verticalTabsRoot : classes.horizontalTabsRoot}>
+            {vertical ?
+                <Tabs
+                    orientation={"vertical"}
+                    variant="scrollable"
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="Vertical tabs example"
+                    className={classes.verticalTabs}>
+                    <Tab label="Zusammenfassungen" {...a11yProps(0)} />
+                    <Tab label="Notenrechner" {...a11yProps(1)} />
+                </Tabs> :
+                <Tabs value={value}
+                      onChange={handleChange}
+                      aria-label="simple tabs example"
+                      indicatorColor="secondary"
+                      variant="scrollable"
+                      scrollButtons="auto"
+                      className={classes.horizontalTabs}>
+                    <Tab label="Zusammenfassungen" {...a11yProps(0)} />
+                    <Tab label="Notenrechner" {...a11yProps(1)} />
+                </Tabs>}
             <TabPanel value={value} index={0}>
                 <SummariesSmall classes={classes}/>
             </TabPanel>

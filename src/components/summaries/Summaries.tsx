@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
-    Button, Card, CardActions, CardContent, Checkbox, createStyles, Grid, GridList,
-    IconButton, lighten,
+    Button, Card, CardActions, CardContent, Checkbox, createStyles, Grid, IconButton, lighten,
     Paper,
     Table,
     TableBody,
@@ -252,8 +251,10 @@ export class SummariesSmall extends React.Component<WithStyles<typeof styles>, S
                             .slice(0, 5)
                             .map((summary, index) =>
                                 <Grid item xs={12} sm={6} key={index}>
-                                    <Card className={classes.cardsRoot} variant="outlined">
-                                        <CardContent>
+                                    <Card className={classes.cardsRoot}
+                                          style={{height: '100%', display: "grid", gridTemplateRows: "1fr auto"}}
+                                          variant="outlined">
+                                        <CardContent style={{alignSelf: "stretch"}}>
                                             <Typography className={classes.cardsTitle} color="textSecondary"
                                                         gutterBottom>
                                                 {summary.date}
@@ -269,7 +270,8 @@ export class SummariesSmall extends React.Component<WithStyles<typeof styles>, S
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <Button size="small" href={summary.filepath} download startIcon={<GetAppIcon/>}>
+                                            <Button size="small" href={summary.filepath} download
+                                                    startIcon={<GetAppIcon/>}>
                                                 Herunterladen
                                             </Button>
                                             <Button size="small" component={Link} to="/summaries">
