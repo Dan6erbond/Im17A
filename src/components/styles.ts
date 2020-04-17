@@ -150,4 +150,8 @@ export const styles = (theme: Theme) => createStyles({
         width: 500,
         height: 450,
     },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    },
 });

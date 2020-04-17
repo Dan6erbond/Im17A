@@ -9,7 +9,7 @@ import {
     TableHead,
     TableRow,
     TableCell,
-    TableBody, Button, Badge, CardContent, Card, CardActions
+    TableBody, Button, Badge, CardContent, Card, CardActions, Backdrop, CircularProgress
 } from "@material-ui/core";
 import {styles} from "../styles";
 import {ReactCookieProps} from "react-cookie";
@@ -149,6 +149,7 @@ class Subjects {
 
 interface CalculatorState {
     subjects?: Subjects;
+    backdropOpen?: boolean;
 }
 
 export class CalculatorSmall extends React.Component<WithStyles<typeof styles> & ReactCookieProps, CalculatorState> {
@@ -238,7 +239,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
             ];
         }
 
-        this.state = {subjects: new Subjects(subjects)};
+        this.state = {subjects: new Subjects(subjects), backdropOpen: false};
     }
 
     componentDidMount() {
@@ -259,6 +260,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
 
     render() {
         const {classes} = this.props;
+        const {backdropOpen} = this.state;
         const subjects = this.state.subjects!!;
 
         return (
@@ -341,14 +343,20 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
 
                 <div style={{textAlign: 'right', paddingBottom: '50px'}}>
                     <Button variant="contained" color="primary" onClick={() => {
+                        this.setState({backdropOpen: true});
                         const {cookies} = this.props;
                         if (cookies) {
                             cookies.set("subjects", JSON.stringify(subjects.subjects));
                         }
+                        this.setState({backdropOpen: false});
                     }}>
                         Speichern
                     </Button>
                 </div>
+
+                <Backdrop className={classes.backdrop} open={backdropOpen!!}>
+                    <CircularProgress color="inherit" />
+                </Backdrop>
             </React.Fragment>
         );
     }
