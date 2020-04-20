@@ -47,11 +47,10 @@ export default class Navigation extends React.Component<WithStyles<typeof styles
                                     color="inherit" aria-label="menu">
                             <MenuIcon/>
                         </IconButton>
-                        <Typography variant="h6" className={classes.title}>
+                        <Typography variant="h6" color="inherit" className={classes.title} component={Link} to="/">
                             Im17A
                         </Typography>
                         <div className={classes.grow}/>
-                        <Button color="inherit" component={Link} to="/">Startseite</Button>
                     </Toolbar>
                 </AppBar>
 
