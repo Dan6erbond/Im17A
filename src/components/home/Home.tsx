@@ -4,6 +4,7 @@ import React from "react";
 import {CalculatorSmall} from "../calculator/Calculator";
 import {ReactCookieProps} from "react-cookie";
 import SummariesContainer from "../summaries/Summaries";
+import DocumentContainer from "../documents/DocumentContainer";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -43,6 +44,8 @@ export default function Home(props: WithStyles<typeof styles> & ReactCookieProps
         setValue(newValue);
     };
 
+    const headers = ["Zusammenfassungen", "Dokumente", "Notenrechner"];
+
     return (
         <div className={vertical ? classes.verticalTabsRoot : classes.horizontalTabsRoot}>
             {vertical ?
@@ -53,8 +56,8 @@ export default function Home(props: WithStyles<typeof styles> & ReactCookieProps
                     onChange={handleChange}
                     aria-label="Vertical tabs example"
                     className={classes.verticalTabs}>
-                    <Tab label="Zusammenfassungen" {...a11yProps(0)} />
-                    <Tab label="Notenrechner" {...a11yProps(1)} />
+                    {headers.map((t, i) =>
+                        <Tab label={t} {...a11yProps({i})} />)}
                 </Tabs> :
                 <Tabs value={value}
                       onChange={handleChange}
@@ -63,13 +66,20 @@ export default function Home(props: WithStyles<typeof styles> & ReactCookieProps
                       variant="scrollable"
                       scrollButtons="auto"
                       className={classes.horizontalTabs}>
-                    <Tab label="Zusammenfassungen" {...a11yProps(0)} />
-                    <Tab label="Notenrechner" {...a11yProps(1)} />
+                    {headers.map((t, i) =>
+                        <Tab label={t} {...a11yProps({i})} />)}
                 </Tabs>}
             <TabPanel value={value} index={0}>
                 <SummariesContainer component="SummariesSmall" classes={classes}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
+                <DocumentContainer children={[
+                    {name: "Aufgabenliste", path: "res/docs/general/aufgabenliste.pdf"},
+                    {name: "Klassenliste", path: "res/docs/general/klassenliste.xlsx"},
+                    {name: "Stundenplan", path: "res/docs/general/stundenplan.docx"}
+                ]}/>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
                 <CalculatorSmall classes={classes} cookies={cookies}/>
             </TabPanel>
         </div>
