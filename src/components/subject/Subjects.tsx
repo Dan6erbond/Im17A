@@ -22,6 +22,10 @@ export default function Subjects() {
 
     return (
         <div className={classes.root}>
+            <Typography variant="h4" gutterBottom>
+                Fächer
+            </Typography>
+            <br/>
             <Subject name={"Französisch"} expanded={expanded} handleChange={handleChange}>
                 <div style={{width: '100%'}}>
                     <DocumentContainer children={[
@@ -71,6 +75,52 @@ export default function Subjects() {
                         {name: "Kontenrahmen & Kontenplan", path: "res/docs/subjects/finance/kontenrahmen_kontenplan_l.pdf"},
                         {name: "Spezielle Probleme", path: "res/docs/subjects/finance/spezielle_probleme_l.pdf"}
                     ]}/>
+                </div>
+            </Subject>
+            <Subject name={"Informatik"} expanded={expanded} handleChange={handleChange}>
+                <div style={{width: '100%'}}>
+                    <DocumentContainer children={[
+                        {name: "Bildungsplan", path: "res/docs/subjects/engineering/bildungsplan.pdf"},
+                        {name: "Lehrplan", path: "res/docs/subjects/engineering/lehrplan.pdf"},
+                        {name: "Masterplan", path: "res/docs/subjects/engineering/masterplan.xlsx"},
+                        {name: "ProBe", path: "res/docs/subjects/engineering/probe.docx"},
+                        {name: "Survival Guide", path: "res/docs/subjects/engineering/survival_guide.pdf"}
+                    ]}/>
+                </div>
+            </Subject>
+            <Subject name={"Mathematik"} expanded={expanded} handleChange={handleChange}>
+                <div style={{width: '100%'}}>
+                    <DocumentContainer children={[
+                        {name: "Alles Mathematik von Pythagoras zu Big Data", path: "res/docs/subjects/maths/alles_mathematik_von_pythagoras_zu_big_data.pdf"},
+                        {name: "Geometrie für Dummies", path: "res/docs/subjects/maths/geometrie_fuer_dummies.epub"},
+                        {name: "SMS Mathematik", path: "res/docs/subjects/maths/sms_mathematik.pdf"}
+                    ]}/>
+                    <br/>
+                    <Typography variant="h6" gutterBottom>
+                        Quadratische Gleichungen
+                    </Typography>
+                    <DocumentContainer children={[
+                        {name: "Theorie", path: "res/docs/subjects/maths/quadratische_gleichungen_theorie.pdf"}
+                    ]}/>
+                    <br/>
+                    <Typography variant="h6" gutterBottom>
+                        Reelle Funktionen
+                    </Typography>
+                    <DocumentContainer children={[
+                        {name: "Theorie", path: "res/docs/subjects/maths/reelle_funktionen_theorie.pdf"},
+                        {name: "Test Lösungen", path: "res/docs/subjects/maths/reelle_funktionen_test_l.docx"}
+                    ]}/>
+                    <br/>
+                    <Typography variant="h6" gutterBottom>
+                        Lineare Gleichungen
+                    </Typography>
+                    <DocumentContainer children={[
+                        {name: "Theorie", path: "res/docs/subjects/maths/lineare_gleichungen_theorie.pdf"}
+                    ]}/>
+                </div>
+            </Subject>
+            <Subject name={"Wirtschaft und Recht"} expanded={expanded} handleChange={handleChange} disabled>
+                <div style={{width: '100%'}}>
                 </div>
             </Subject>
         </div>

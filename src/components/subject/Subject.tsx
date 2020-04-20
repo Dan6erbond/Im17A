@@ -29,14 +29,15 @@ interface SubjectProps {
     children?: React.ReactNode;
     expanded: string | false;
     handleChange: (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => void;
+    disabled?: boolean;
 }
 
 export default function Subject(props: SubjectProps) {
     const classes = useStyles();
-    const {name, children, expanded, handleChange} = props;
+    const {name, children, expanded, handleChange, disabled} = props;
 
     return (
-        <ExpansionPanel expanded={expanded === name} onChange={handleChange(name)} id={name}>
+        <ExpansionPanel expanded={expanded === name} onChange={handleChange(name)} id={name} disabled={disabled ?? false}>
             <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon/>}
                 aria-controls={`${name}-bh-content`}
