@@ -1,8 +1,8 @@
 import * as React from "react";
+import {Link} from "react-router-dom";
 import {styles} from './styles';
 import {
     AppBar,
-    Button,
     Divider,
     IconButton,
     List,
@@ -14,10 +14,11 @@ import {
     Typography,
     WithStyles
 } from "@material-ui/core";
+
 import MenuIcon from '@material-ui/icons/Menu';
 import FunctionsIcon from '@material-ui/icons/Functions';
 import DescriptionIcon from '@material-ui/icons/Description';
-import {Link} from "react-router-dom";
+import FolderIcon from '@material-ui/icons/Folder';
 
 interface NavigationState {
     drawerOpen: boolean;
@@ -68,6 +69,12 @@ export default class Navigation extends React.Component<WithStyles<typeof styles
                         </ListItem>
                     </List>
                     <Divider/>
+                    <List>
+                        <ListItem button component={Link} to="/subjects">
+                            <ListItemIcon><FolderIcon/></ListItemIcon>
+                            <ListItemText>Fächer</ListItemText>
+                        </ListItem>
+                    </List>
                     <List>
                         <ListItem button component={Link} to="/summaries">
                             <ListItemIcon><DescriptionIcon/></ListItemIcon>
