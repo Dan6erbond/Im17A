@@ -9,11 +9,22 @@ import {
     TableHead,
     TableRow,
     TableCell,
-    TableBody, Button, Badge, CardContent, Card, CardActions, Backdrop, CircularProgress
+    TableBody,
+    Button,
+    Badge,
+    CardContent,
+    Card,
+    CardActions,
+    Backdrop,
+    CircularProgress,
+    Dialog,
+    DialogTitle,
+    DialogContent, DialogContentText, DialogActions, useMediaQuery, useTheme
 } from "@material-ui/core";
 import {styles} from "../styles";
 import {ReactCookieProps} from "react-cookie";
 import {Link} from "react-router-dom";
+import SubjectGraph from "./SubjectGraph";
 
 class Subject {
     grades: number[];
@@ -51,6 +62,19 @@ class Subject {
 
         return !isNaN(avg) ? avg : 0;
     }
+
+    isProject(): boolean {
+        let cnt = 0;
+
+        for (let i = 0; i < this.grades.length - 1; i++) {
+            let g = this.grades[i];
+            if (g === 0 || g === -1)
+                continue;
+            cnt++;
+        }
+
+        return cnt > 1;
+    }
 }
 
 class History extends Subject {
@@ -78,7 +102,7 @@ class Project extends Subject {
     }
 }
 
-class Subjects {
+export class Subjects {
     subjects: Subject[];
     average: number = 0;
     minusPoints: number = 0;
@@ -150,6 +174,7 @@ class Subjects {
 interface CalculatorState {
     subjects?: Subjects;
     backdropOpen?: boolean;
+    dialogOpen?: boolean;
 }
 
 export class CalculatorSmall extends React.Component<WithStyles<typeof styles> & ReactCookieProps, CalculatorState> {
@@ -208,8 +233,12 @@ export class CalculatorSmall extends React.Component<WithStyles<typeof styles> &
     }
 }
 
-export default class Calculator extends React.Component<WithStyles<typeof styles> & ReactCookieProps, CalculatorState> {
-    constructor(props: WithStyles<typeof styles> & ReactCookieProps) {
+interface CalculatorProps extends WithStyles<typeof styles>, ReactCookieProps {
+    fullscreen: boolean;
+}
+
+class Calculator extends React.Component<CalculatorProps, CalculatorState> {
+    constructor(props: CalculatorProps) {
         super(props);
 
         this.setGrade = this.setGrade.bind(this);
@@ -239,7 +268,7 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
             ];
         }
 
-        this.state = {subjects: new Subjects(subjects), backdropOpen: false};
+        this.state = {subjects: new Subjects(subjects), backdropOpen: false, dialogOpen: false};
     }
 
     componentDidMount() {
@@ -259,8 +288,8 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
     }
 
     render() {
-        const {classes} = this.props;
-        const {backdropOpen} = this.state;
+        const {classes, fullscreen} = this.props;
+        const {backdropOpen, dialogOpen} = this.state;
         const subjects = this.state.subjects!!;
 
         return (
@@ -342,6 +371,10 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                 <br/>
 
                 <div style={{textAlign: 'right', paddingBottom: '50px'}}>
+                    <Button variant="contained" color="primary" onClick={() => this.setState({dialogOpen: true})}>
+                        Graph anzeigen
+                    </Button>
+                    <span style={{width: '5px', display: 'inline-block'}}/>
                     <Button variant="contained" color="primary" onClick={() => {
                         this.setState({backdropOpen: true});
                         const {cookies} = this.props;
@@ -355,9 +388,40 @@ export default class Calculator extends React.Component<WithStyles<typeof styles
                 </div>
 
                 <Backdrop className={classes.backdrop} open={backdropOpen!!}>
-                    <CircularProgress color="inherit" />
+                    <CircularProgress color="inherit"/>
                 </Backdrop>
+
+                <Dialog fullScreen={fullscreen}
+                        open={dialogOpen!!}
+                        onClose={() => this.setState({dialogOpen: false})}
+                        aria-labelledby="responsive-dialog-title"
+                        maxWidth="lg">
+                    <DialogTitle id="responsive-dialog-title">Notengraph</DialogTitle>
+                    <DialogContent>
+                        <div style={{
+                            marginRight: '10px',
+                            paddingRight: '25px',
+                            paddingBottom: '15px',
+                            marginBottom: '5px'
+                        }}>
+                            <SubjectGraph subjects={subjects}/>
+                        </div>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={() => this.setState({dialogOpen: false})} color="primary">
+                            Schliessen
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </React.Fragment>
         );
     }
+}
+
+export default function CalculatorWrapper(props: WithStyles<typeof styles> & ReactCookieProps) {
+    const {classes, cookies} = props;
+    const theme = useTheme();
+    const fullscreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+    return <Calculator fullscreen={fullscreen} classes={classes} cookies={cookies}/>
 }
