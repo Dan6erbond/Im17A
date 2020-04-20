@@ -10,6 +10,7 @@ import {ReactCookieProps, withCookies} from 'react-cookie';
 import {compose} from 'redux';
 import Home from "./components/home/Home";
 import SummariesContainer from "./components/summaries/Summaries";
+import Subjects from "./components/subject/Subjects";
 
 const theme = createMuiTheme();
 
@@ -28,6 +29,9 @@ function App(props: WithStyles<typeof styles> & ReactCookieProps) {
                     </Route>
                     <Route path="/summaries">
                         <SummariesContainer component="Summaries" classes={classes}/>
+                    </Route>
+                    <Route path="/subjects">
+                        <Subjects/>
                     </Route>
                 </Switch>
             </Layout>
