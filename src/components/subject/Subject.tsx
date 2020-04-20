@@ -36,7 +36,7 @@ export default function Subject(props: SubjectProps) {
     const {name, children, expanded, handleChange} = props;
 
     return (
-        <ExpansionPanel expanded={expanded === name} onChange={handleChange(name)}>
+        <ExpansionPanel expanded={expanded === name} onChange={handleChange(name)} id={name}>
             <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon/>}
                 aria-controls={`${name}-bh-content`}
