@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-interface DocumentProps {
+export interface DocumentSpecs {
     path: string;
     name: string;
 }
 
-export default function Document(props: DocumentProps) {
+export function Document(props: DocumentSpecs) {
     const classes = useStyles();
     const {path, name} = props;
 
