@@ -28,7 +28,7 @@ export default function DocumentContainer(props: DocumentContainerProps) {
             {children && children.length > 0 ?
                 <Grid container spacing={1} style={{width: '100%'}}>
                     {children.map((specs, index) =>
-                        <Grid item sm={6} md={4} key={index} style={{width: '100%'}}>
+                        <Grid item sm={6} md={4} lg={3} key={index} style={{width: '100%'}}>
                             <Document {...specs}/>
                         </Grid>)}
                 </Grid> : null}
