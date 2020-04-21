@@ -397,7 +397,8 @@ class Calculator extends React.Component<CalculatorProps, CalculatorState> {
                         open={dialogOpen!!}
                         onClose={() => this.setState({dialogOpen: false})}
                         aria-labelledby="responsive-dialog-title"
-                        maxWidth="lg">
+                        fullWidth
+                        maxWidth="md">
                     <DialogTitle id="responsive-dialog-title">Notengraph</DialogTitle>
                     <DialogContent>
                         <div style={{

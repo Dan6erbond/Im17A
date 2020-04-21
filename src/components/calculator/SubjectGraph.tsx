@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
 import {Subjects} from "./Calculator";
 
@@ -45,22 +45,21 @@ export default function SubjectGraph(props: SubjectGraphProps) {
         data.push(sem);
     }
 
-    console.log(data);
-
     return (
-        <LineChart width={600}
-                   height={300}
-                   data={data}
-                   margin={{
-                       top: 5, right: 30, left: 20, bottom: 5,
-                   }}>
-            <CartesianGrid strokeDasharray="3 3"/>
-            <XAxis dataKey="name"/>
-            <YAxis domain={[1, 6]}/>
-            <Tooltip/>
-            <Legend/>
-            {subs.map((s, i) => <Line key={i} type="monotone" dataKey={s} stroke={colors[i + 1]} strokeDasharray="5 5"/>)}
-            <Line type="monotone" dataKey="avg" name="Durchschnitt" stroke={colors[0]}/>
-        </LineChart>
+        <ResponsiveContainer aspect={16/10} width="85%" minWidth={550} minHeight={450}>
+            <LineChart data={data}
+                       margin={{
+                           top: 5, right: 30, left: 20, bottom: 5,
+                       }}>
+                <CartesianGrid strokeDasharray="3 3"/>
+                <XAxis dataKey="name"/>
+                <YAxis domain={[1, 6]}/>
+                <Tooltip/>
+                <Legend/>
+                {subs.map((s, i) => <Line key={i} type="monotone" dataKey={s} stroke={colors[i + 1]}
+                                          strokeDasharray="5 5"/>)}
+                <Line type="monotone" dataKey="avg" name="Durchschnitt" stroke={colors[0]}/>
+            </LineChart>
+        </ResponsiveContainer>
     );
 }
