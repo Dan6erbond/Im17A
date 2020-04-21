@@ -56,10 +56,10 @@ export default function SubjectGraph(props: SubjectGraphProps) {
                    }}>
             <CartesianGrid strokeDasharray="3 3"/>
             <XAxis dataKey="name"/>
-            <YAxis/>
+            <YAxis domain={[1, 6]}/>
             <Tooltip/>
             <Legend/>
-            {subs.map((s, i) => <Line type="monotone" dataKey={s} stroke={colors[i+1]} strokeDasharray="5 5"/>)}
+            {subs.map((s, i) => <Line key={i} type="monotone" dataKey={s} stroke={colors[i + 1]} strokeDasharray="5 5"/>)}
             <Line type="monotone" dataKey="avg" name="Durchschnitt" stroke={colors[0]}/>
         </LineChart>
     );
