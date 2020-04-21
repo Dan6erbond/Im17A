@@ -19,7 +19,10 @@ import {
     CircularProgress,
     Dialog,
     DialogTitle,
-    DialogContent, DialogContentText, DialogActions, useMediaQuery, useTheme
+    DialogContent,
+    DialogActions,
+    useMediaQuery,
+    useTheme
 } from "@material-ui/core";
 import {styles} from "../styles";
 import {ReactCookieProps} from "react-cookie";
@@ -183,10 +186,10 @@ export class CalculatorSmall extends React.Component<WithStyles<typeof styles> &
 
         let subjects: Subject[];
 
-        const {cookies} = this.props;
-        subjects = cookies ? cookies.get("subjects") : undefined;
+        let item = localStorage.getItem("subjects");
 
-        if (subjects) {
+        if (item) {
+            subjects = JSON.parse(item);
             subjects = subjects.map(s => new Subject("", s));
             this.state = {subjects: new Subjects(subjects)};
         } else {
@@ -233,7 +236,7 @@ export class CalculatorSmall extends React.Component<WithStyles<typeof styles> &
     }
 }
 
-interface CalculatorProps extends WithStyles<typeof styles>, ReactCookieProps {
+interface CalculatorProps extends WithStyles<typeof styles> {
     fullscreen: boolean;
 }
 
@@ -245,10 +248,10 @@ class Calculator extends React.Component<CalculatorProps, CalculatorState> {
 
         let subjects: Subject[];
 
-        const {cookies} = this.props;
-        subjects = cookies ? cookies.get("subjects") : undefined;
+        let item = localStorage.getItem("subjects");
 
-        if (subjects) {
+        if (item) {
+            subjects = JSON.parse(item);
             subjects = subjects.map(s => new Subject("", s));
         } else {
             subjects = [
@@ -377,11 +380,10 @@ class Calculator extends React.Component<CalculatorProps, CalculatorState> {
                     <span style={{width: '5px', display: 'inline-block'}}/>
                     <Button variant="contained" color="primary" onClick={() => {
                         this.setState({backdropOpen: true});
-                        const {cookies} = this.props;
-                        if (cookies) {
-                            cookies.set("subjects", JSON.stringify(subjects.subjects));
-                        }
-                        this.setState({backdropOpen: false});
+                        localStorage.setItem("subjects", JSON.stringify(subjects.subjects));
+                        setTimeout(() => {
+                            this.setState({backdropOpen: false});
+                        }, 500);
                     }}>
                         Speichern
                     </Button>
@@ -418,10 +420,10 @@ class Calculator extends React.Component<CalculatorProps, CalculatorState> {
     }
 }
 
-export default function CalculatorWrapper(props: WithStyles<typeof styles> & ReactCookieProps) {
-    const {classes, cookies} = props;
+export default function CalculatorWrapper(props: WithStyles<typeof styles>) {
+    const {classes} = props;
     const theme = useTheme();
     const fullscreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-    return <Calculator fullscreen={fullscreen} classes={classes} cookies={cookies}/>
+    return <Calculator fullscreen={fullscreen} classes={classes}/>
 }

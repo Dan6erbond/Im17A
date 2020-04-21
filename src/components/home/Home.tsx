@@ -2,7 +2,6 @@ import {Tab, Tabs, useMediaQuery, useTheme, WithStyles} from "@material-ui/core"
 import {styles} from "../styles";
 import React from "react";
 import {CalculatorSmall} from "../calculator/Calculator";
-import {ReactCookieProps} from "react-cookie";
 import SummariesContainer from "../summaries/Summaries";
 import DocumentContainer from "../documents/DocumentContainer";
 
@@ -34,10 +33,10 @@ function a11yProps(index: any) {
     };
 }
 
-export default function Home(props: WithStyles<typeof styles> & ReactCookieProps) {
+export default function Home(props: WithStyles<typeof styles>) {
     const theme = useTheme();
     const vertical = useMediaQuery(theme.breakpoints.up('md'));
-    const {classes, cookies} = props;
+    const {classes} = props;
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -80,7 +79,7 @@ export default function Home(props: WithStyles<typeof styles> & ReactCookieProps
                 ]}/>
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <CalculatorSmall classes={classes} cookies={cookies}/>
+                <CalculatorSmall classes={classes}/>
             </TabPanel>
         </div>
     );
