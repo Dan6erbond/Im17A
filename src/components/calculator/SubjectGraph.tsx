@@ -14,6 +14,8 @@ export default function SubjectGraph(props: SubjectGraphProps) {
         "#00bcd4", "#009688", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800",
         "#ff5722", "#ff5722", "#795548", "#9e9e9e", "#607d8b"];
 
+    const [hidden, setHidden] = React.useState<string[]>([]);
+
     let data: any[] = [];
     let subs: string[] = [];
 
@@ -46,20 +48,27 @@ export default function SubjectGraph(props: SubjectGraphProps) {
     }
 
     return (
-        <ResponsiveContainer aspect={16/10} width="85%" minWidth={550} minHeight={450}>
-            <LineChart data={data}
-                       margin={{
-                           top: 5, right: 30, left: 20, bottom: 5,
-                       }}>
-                <CartesianGrid strokeDasharray="3 3"/>
-                <XAxis dataKey="name"/>
-                <YAxis domain={[1, 6]}/>
-                <Tooltip/>
-                <Legend/>
-                {subs.map((s, i) => <Line key={i} type="monotone" dataKey={s} stroke={colors[i + 1]}
-                                          strokeDasharray="5 5"/>)}
-                <Line type="monotone" dataKey="avg" name="Durchschnitt" stroke={colors[0]}/>
-            </LineChart>
-        </ResponsiveContainer>
+        <div style={{width: '90%', display: 'inline-block'}}>
+            <ResponsiveContainer aspect={16 / 9} minHeight={550}>
+                <LineChart data={data}>
+                    <CartesianGrid strokeDasharray="3 3"/>
+                    <XAxis dataKey="name"/>
+                    <YAxis domain={[1, 6]}/>
+                    <Tooltip/>
+                    {subs.map((s, i) => <Line key={i} type="monotone" dataKey={s} stroke={colors[i + 1]}
+                                              strokeDasharray="5 5"/>)}
+                    <Line type="monotone" dataKey="avg" name="Durchschnitt" stroke={colors[0]}/>
+                    <Legend onClick={args => {
+                        const dataKey = args["dataKey"];
+                        let h = hidden.map(n => n);
+                        if (h.indexOf(dataKey) === -1)
+                            h.push(dataKey);
+                        else
+                            h = h.filter(dk => dk !== dataKey);
+                        setHidden(h);
+                    }}/>
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
     );
 }

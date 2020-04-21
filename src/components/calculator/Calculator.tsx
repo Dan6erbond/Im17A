@@ -401,12 +401,7 @@ class Calculator extends React.Component<CalculatorProps, CalculatorState> {
                         maxWidth="md">
                     <DialogTitle id="responsive-dialog-title">Notengraph</DialogTitle>
                     <DialogContent>
-                        <div style={{
-                            marginRight: '10px',
-                            paddingRight: '25px',
-                            paddingBottom: '15px',
-                            marginBottom: '5px'
-                        }}>
+                        <div style={{textAlign: 'center'}}>
                             <SubjectGraph subjects={subjects}/>
                         </div>
                     </DialogContent>
