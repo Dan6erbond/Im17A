@@ -155,39 +155,39 @@ export default class Subjects extends React.Component<RouteComponentProps<Subjec
                         </Typography>
                         <DocumentContainer children={[
                             {
-                                name: "Beleg & Kontierung",
+                                name: "Kapitel 4",
                                 path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_4.pdf"
                             },
                             {
-                                name: "Beleg & Kontierung",
+                                name: "Kapitel 5",
                                 path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_5.pdf"
                             },
                             {
-                                name: "Beleg & Kontierung",
+                                name: "Kapitel 9",
                                 path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_9.pdf"
                             },
                             {
-                                name: "Beleg & Kontierung",
+                                name: "Kapitel 10 (1)",
                                 path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_10_1.pdf"
                             },
                             {
-                                name: "Beleg & Kontierung",
+                                name: "Kapitel 10 (2)",
                                 path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_10_2.pdf"
                             },
                             {
-                                name: "Beleg & Kontierung",
+                                name: "Kapitel 11",
                                 path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_11.pdf"
                             },
                             {
-                                name: "Beleg & Kontierung",
+                                name: "Kapitel 12 (1)",
                                 path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_12_1.pdf"
                             },
                             {
-                                name: "Beleg & Kontierung",
+                                name: "Kapitel 12 (2)",
                                 path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_12_2.pdf"
                             },
                             {
-                                name: "Beleg & Kontierung",
+                                name: "Kapitel 12 (3)",
                                 path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_12_3.pdf"
                             }
                         ]}/>
@@ -262,19 +262,19 @@ export default class Subjects extends React.Component<RouteComponentProps<Subjec
                         </Typography>
                         <DocumentContainer children={[
                             {
-                                name: "Aufgaben 1",
+                                name: "Aufgaben (1)",
                                 path: "res/docs/subjects/economics/vwl/internationale_arbeitsteilung_aufgaben_1.pdf"
                             },
                             {
-                                name: "Aufgaben 2",
+                                name: "Aufgaben (2)",
                                 path: "res/docs/subjects/economics/vwl/internationale_arbeitsteilung_aufgaben_2.pdf"
                             },
                             {
-                                name: "Aufgaben 3",
+                                name: "Aufgaben (3)",
                                 path: "res/docs/subjects/economics/vwl/internationale_arbeitsteilung_aufgaben_3.pdf"
                             },
                             {
-                                name: "Aufgaben 4",
+                                name: "Aufgaben (4)",
                                 path: "res/docs/subjects/economics/vwl/internationale_arbeitsteilung_aufgaben_4.pdf"
                             }
                         ]}/>
