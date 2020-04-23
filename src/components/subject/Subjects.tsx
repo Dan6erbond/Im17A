@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Typography} from "@material-ui/core";
+import {Divider, Typography} from "@material-ui/core";
 import Subject from "./Subject";
 import DocumentContainer from "../documents/DocumentContainer";
 import {RouteComponentProps} from "react-router";
@@ -243,7 +243,7 @@ export default class Subjects extends React.Component<RouteComponentProps<Subjec
                 </Subject>
                 <Subject name={"Wirtschaft und Recht"} expanded={expanded} handleChange={handleChange}>
                     <div style={{width: '100%'}}>
-                        <Typography variant="h6" gutterBottom>
+                        <Typography variant="h5" gutterBottom>
                             VWL
                         </Typography>
                         <DocumentContainer children={[
@@ -254,6 +254,44 @@ export default class Subjects extends React.Component<RouteComponentProps<Subjec
                             {
                                 name: "Kapitel 6 - Geld und Preisstabilität",
                                 path: "res/docs/subjects/economics/vwl/k6_geld_und_preisstabilitaet.pdf"
+                            }
+                        ]}/>
+                        <br/>
+                        <Typography variant="h6" gutterBottom>
+                            Kapitel 9 - Internationale Arbeitsteilung
+                        </Typography>
+                        <DocumentContainer children={[
+                            {
+                                name: "Aufgaben 1",
+                                path: "res/docs/subjects/economics/vwl/internationale_arbeitsteilung_aufgaben_1.pdf"
+                            },
+                            {
+                                name: "Aufgaben 2",
+                                path: "res/docs/subjects/economics/vwl/internationale_arbeitsteilung_aufgaben_2.pdf"
+                            },
+                            {
+                                name: "Aufgaben 3",
+                                path: "res/docs/subjects/economics/vwl/internationale_arbeitsteilung_aufgaben_3.pdf"
+                            },
+                            {
+                                name: "Aufgaben 4",
+                                path: "res/docs/subjects/economics/vwl/internationale_arbeitsteilung_aufgaben_4.pdf"
+                            }
+                        ]}/>
+                        <br/>
+                        <Divider/>
+                        <br/>
+                        <Typography variant="h5" gutterBottom>
+                            BWL
+                        </Typography>
+                        <DocumentContainer children={[
+                            {
+                                name: "BWL Stadlin Lösungen Kapitel 7",
+                                path: "res/docs/subjects/economics/bwl/bwl_stadlin_2017_loesungen_kapitel_7.pdf"
+                            },
+                            {
+                                name: "BWL Stadlin Lösungen Kapitel 8",
+                                path: "res/docs/subjects/economics/bwl/bwl_stadlin_2017_loesungen_kapitel_8.pdf"
                             }
                         ]}/>
                     </div>
