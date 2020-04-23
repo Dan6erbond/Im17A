@@ -87,7 +87,7 @@ export default function Navigation(props: WithStyles<typeof styles>) {
                     </ListItem>
                     <Collapse in={booksCollapseOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            {["Englisch"].map((s,i) =>
+                            {["Englisch", "Finanz- und Rechnungswesen", "Mathematik", "Wirtschaft und Recht"].map((s,i) =>
                                 <ListItem button component={Link} to={`/books/${s}`} className={classes.nested} key={i}>
                                     <ListItemText>{s}</ListItemText>
                                 </ListItem>)}
