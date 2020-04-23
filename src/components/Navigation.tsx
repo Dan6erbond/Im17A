@@ -25,12 +25,13 @@ import {ExpandLess, ExpandMore} from "@material-ui/icons";
 interface NavigationState {
     drawerOpen: boolean;
     subjectsCollapseOpen: boolean;
+    booksCollapseOpen: boolean;
 }
 
 export default class Navigation extends React.Component<WithStyles<typeof styles>, NavigationState> {
     constructor(props: WithStyles<typeof styles>) {
         super(props);
-        this.state = {drawerOpen: false, subjectsCollapseOpen: false};
+        this.state = {drawerOpen: false, subjectsCollapseOpen: false, booksCollapseOpen: false};
 
         this.toggleDrawer = this.toggleDrawer.bind(this);
         this.toggleSubjectsCollapse = this.toggleSubjectsCollapse.bind(this);
@@ -44,9 +45,13 @@ export default class Navigation extends React.Component<WithStyles<typeof styles
         this.setState({subjectsCollapseOpen: !this.state.subjectsCollapseOpen});
     };
 
+    private toggleBooksCollapse() {
+        this.setState({booksCollapseOpen: !this.state.booksCollapseOpen});
+    };
+
     render() {
         const {classes} = this.props;
-        const {drawerOpen, subjectsCollapseOpen} = this.state;
+        const {drawerOpen, subjectsCollapseOpen, booksCollapseOpen} = this.state;
 
         return (
             <React.Fragment>
@@ -95,10 +100,23 @@ export default class Navigation extends React.Component<WithStyles<typeof styles
                                     </ListItem>)}
                             </List>
                         </Collapse>
-                        <ListItem button component={Link} to="/books" disabled>
+                        <ListItem button component={Link} to="/books">
                             <ListItemIcon><BookIcon/></ListItemIcon>
                             <ListItemText>Bücher</ListItemText>
+                            <ListItemSecondaryAction onClick={() => this.toggleBooksCollapse()}>
+                                <IconButton edge="end" aria-label="expand">
+                                    {subjectsCollapseOpen ? <ExpandLess/> : <ExpandMore/>}
+                                </IconButton>
+                            </ListItemSecondaryAction>
                         </ListItem>
+                        <Collapse in={booksCollapseOpen} timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding>
+                                {["Englisch"].map((s,i) =>
+                                    <ListItem button component={Link} to={`/books/${s}`} className={classes.nested} key={i}>
+                                        <ListItemText>{s}</ListItemText>
+                                    </ListItem>)}
+                            </List>
+                        </Collapse>
                         <ListItem button component={Link} to="/summaries">
                             <ListItemIcon><DescriptionIcon/></ListItemIcon>
                             <ListItemText>Zusammenfassungen</ListItemText>

@@ -9,6 +9,7 @@ import Calculator from "./components/calculator/Calculator";
 import Home from "./components/home/Home";
 import SummariesContainer from "./components/summaries/Summaries";
 import Subjects from "./components/pages/Subjects";
+import Books from "./components/pages/Books";
 
 const theme = createMuiTheme();
 
@@ -30,6 +31,7 @@ function App(props: WithStyles<typeof styles>) {
                     </Route>
                     /* use render prop instead of component prop in case props need to be passed to component */
                     <Route path="/subjects/:subject?" component={Subjects}/>
+                    <Route path="/books/:subject?" component={Books}/>
                 </Switch>
             </Layout>
         </ThemeProvider>

@@ -82,7 +82,6 @@ export default class Subjects extends React.Component<RouteComponentProps<Subjec
                     <div style={{width: '100%'}}>
                         <DocumentContainer children={[
                             {name: "Irregular Verbs", path: "res/docs/subjects/english/irregular_verbs.doc"},
-                            {name: "Unit 1", path: "res/docs/subjects/english/unit_1.pdf"},
                             {name: "Vocabulary Exam 1", path: "res/docs/subjects/english/vocabulary_exam_1.docx"}
                         ]}/>
                     </div>
