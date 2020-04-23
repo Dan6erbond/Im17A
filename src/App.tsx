@@ -28,9 +28,8 @@ function App(props: WithStyles<typeof styles>) {
                     <Route path="/summaries">
                         <SummariesContainer component="Summaries" classes={classes}/>
                     </Route>
-                    <Route path="/subjects">
-                        <Subjects/>
-                    </Route>
+                    /* use render prop instead of component prop in case props need to be passed to component */
+                    <Route path="/subjects/:subject?" component={Subjects}/>
                 </Switch>
             </Layout>
         </ThemeProvider>

@@ -2,12 +2,12 @@ import * as React from "react";
 import {Link} from "react-router-dom";
 import {styles} from './styles';
 import {
-    AppBar,
+    AppBar, Collapse,
     Divider,
     IconButton,
     List,
     ListItem,
-    ListItemIcon,
+    ListItemIcon, ListItemSecondaryAction,
     ListItemText,
     SwipeableDrawer,
     Toolbar,
@@ -19,26 +19,33 @@ import MenuIcon from '@material-ui/icons/Menu';
 import FunctionsIcon from '@material-ui/icons/Functions';
 import DescriptionIcon from '@material-ui/icons/Description';
 import FolderIcon from '@material-ui/icons/Folder';
+import {ExpandLess, ExpandMore} from "@material-ui/icons";
 
 interface NavigationState {
     drawerOpen: boolean;
+    subjectsCollapseOpen: boolean;
 }
 
 export default class Navigation extends React.Component<WithStyles<typeof styles>, NavigationState> {
     constructor(props: WithStyles<typeof styles>) {
         super(props);
-        this.state = {drawerOpen: false};
+        this.state = {drawerOpen: false, subjectsCollapseOpen: false};
 
         this.toggleDrawer = this.toggleDrawer.bind(this);
+        this.toggleSubjectsCollapse = this.toggleSubjectsCollapse.bind(this);
     }
-
 
     private toggleDrawer(open: boolean) {
         this.setState({drawerOpen: open});
     };
 
+    private toggleSubjectsCollapse() {
+        this.setState({subjectsCollapseOpen: !this.state.subjectsCollapseOpen});
+    };
+
     render() {
         const {classes} = this.props;
+        const {drawerOpen, subjectsCollapseOpen} = this.state;
 
         return (
             <React.Fragment>
@@ -59,7 +66,7 @@ export default class Navigation extends React.Component<WithStyles<typeof styles
 
                 <SwipeableDrawer
                     anchor="left"
-                    open={this.state.drawerOpen}
+                    open={drawerOpen}
                     onClose={() => this.toggleDrawer(false)}
                     onOpen={() => this.toggleDrawer(true)}
                 >
@@ -73,9 +80,20 @@ export default class Navigation extends React.Component<WithStyles<typeof styles
                         <ListItem button component={Link} to="/subjects">
                             <ListItemIcon><FolderIcon/></ListItemIcon>
                             <ListItemText>Fächer</ListItemText>
+                            <ListItemSecondaryAction onClick={() => this.toggleSubjectsCollapse()}>
+                                <IconButton edge="end" aria-label="expand">
+                                    {subjectsCollapseOpen ? <ExpandLess/> : <ExpandMore/>}
+                                </IconButton>
+                            </ListItemSecondaryAction>
                         </ListItem>
-                    </List>
-                    <List>
+                        <Collapse in={subjectsCollapseOpen} timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding>
+                                {["Französisch", "Deutsch", "Englisch", "Finanz- und Rechnungswesen", "Informatik", "Mathematik", "Wirtschaft und Recht"].map((s,i) =>
+                                    <ListItem button component={Link} to={`/subjects/${s}`} className={classes.nested} key={i}>
+                                        <ListItemText>{s}</ListItemText>
+                                    </ListItem>)}
+                            </List>
+                        </Collapse>
                         <ListItem button component={Link} to="/summaries">
                             <ListItemIcon><DescriptionIcon/></ListItemIcon>
                             <ListItemText>Zusammenfassungen</ListItemText>

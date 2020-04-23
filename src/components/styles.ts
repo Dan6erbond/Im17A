@@ -154,4 +154,7 @@ export const styles = (theme: Theme) => createStyles({
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     },
+    nested: {
+        paddingLeft: theme.spacing(4),
+    },
 });
