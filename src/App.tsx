@@ -8,7 +8,7 @@ import {Route, Switch} from 'react-router';
 import Calculator from "./components/calculator/Calculator";
 import Home from "./components/home/Home";
 import SummariesContainer from "./components/summaries/Summaries";
-import Subjects from "./components/subject/Subjects";
+import Subjects from "./components/pages/Subjects";
 
 const theme = createMuiTheme();
 

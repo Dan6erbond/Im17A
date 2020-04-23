@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Divider, Typography} from "@material-ui/core";
-import Subject from "./Subject";
+import Subject from "../subject/Subject";
 import DocumentContainer from "../documents/DocumentContainer";
 import {RouteComponentProps} from "react-router";
 
