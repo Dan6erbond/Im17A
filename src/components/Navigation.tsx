@@ -19,6 +19,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import FunctionsIcon from '@material-ui/icons/Functions';
 import DescriptionIcon from '@material-ui/icons/Description';
 import FolderIcon from '@material-ui/icons/Folder';
+import BookIcon from '@material-ui/icons/Book';
 import {ExpandLess, ExpandMore} from "@material-ui/icons";
 
 interface NavigationState {
@@ -94,6 +95,10 @@ export default class Navigation extends React.Component<WithStyles<typeof styles
                                     </ListItem>)}
                             </List>
                         </Collapse>
+                        <ListItem button component={Link} to="/books" disabled>
+                            <ListItemIcon><BookIcon/></ListItemIcon>
+                            <ListItemText>Bücher</ListItemText>
+                        </ListItem>
                         <ListItem button component={Link} to="/summaries">
                             <ListItemIcon><DescriptionIcon/></ListItemIcon>
                             <ListItemText>Zusammenfassungen</ListItemText>
