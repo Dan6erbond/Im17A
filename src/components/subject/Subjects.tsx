@@ -56,24 +56,48 @@ export default function Subjects() {
             <Subject name={"Finanz- und Rechnungswesen"} expanded={expanded} handleChange={handleChange}>
                 <div style={{width: '100%'}}>
                     <DocumentContainer children={[
-                        {name: "Theorie", path: "res/docs/subjects/finance/frw_theorie.pdf"}
+                        {name: "Theorie", path: "res/docs/subjects/finance/frw_theorie.pdf"},
+                    ]}/>
+                    <br/>
+                    <Typography variant="h6" gutterBottom>
+                        Abacus
+                    </Typography>
+                    <DocumentContainer children={[
+                        {name: "Abacus", path: "res/docs/subjects/finance/abacus/abacus.pdf"},
+                        {name: "Abacus Zusammenfassung", path: "res/docs/subjects/finance/abacus/abacus_zusammenfassung.pdf"},
+                        {name: "Kapitel 6", path: "res/docs/subjects/finance/abacus/abacus_2019_kap_6.pdf"}
                     ]}/>
                     <br/>
                     <Typography variant="h6" gutterBottom>
                         Lösungen
                     </Typography>
                     <DocumentContainer children={[
-                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/beleg_und_kontierung_fallstudie_l.pdf"},
-                        {name: "Das Passivkonto", path: "res/docs/subjects/finance/das_passivkonto_l.pdf"},
-                        {name: "Die Bilanz", path: "res/docs/subjects/finance/die_bilanz_l.pdf"},
-                        {name: "Die Erfolgsrechnung", path: "res/docs/subjects/finance/die_erfolgsrechnung_l.pdf"},
-                        {name: "Die Mehrwertsteuer", path: "res/docs/subjects/finance/die_mehrwertsteuer_l.pdf"},
-                        {name: "Die Verbuchung von Geschäftsfällen", path: "res/docs/subjects/finance/die_verbuchung_von_geschaeftsfaellen.pdf"},
-                        {name: "Die Verbuchung von Gewinn & Verlust", path: "res/docs/subjects/finance/die_verbuchung_von_gewinn_verlust_l.pdf"},
-                        {name: "Die Warenkonten", path: "res/docs/subjects/finance/die_warenkonten_l.pdf"},
-                        {name: "Kapitalerträge & Verrechnungssteuer", path: "res/docs/subjects/finance/kapitalertraege_verrechnungssteuer_l.pdf"},
-                        {name: "Kontenrahmen & Kontenplan", path: "res/docs/subjects/finance/kontenrahmen_kontenplan_l.pdf"},
-                        {name: "Spezielle Probleme", path: "res/docs/subjects/finance/spezielle_probleme_l.pdf"}
+                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/solutions/beleg_und_kontierung_fallstudie_l.pdf"},
+                        {name: "Das Passivkonto", path: "res/docs/subjects/finance/solutions/das_passivkonto_l.pdf"},
+                        {name: "Die Bilanz", path: "res/docs/subjects/finance/solutions/die_bilanz_l.pdf"},
+                        {name: "Die Erfolgsrechnung", path: "res/docs/subjects/finance/solutions/die_erfolgsrechnung_l.pdf"},
+                        {name: "Die Mehrwertsteuer", path: "res/docs/subjects/finance/solutions/die_mehrwertsteuer_l.pdf"},
+                        {name: "Die Verbuchung von Geschäftsfällen", path: "res/docs/subjects/finance/solutions/die_verbuchung_von_geschaeftsfaellen_l.pdf"},
+                        {name: "Die Verbuchung von Gewinn & Verlust", path: "res/docs/subjects/finance/solutions/die_verbuchung_von_gewinn_verlust_l.pdf"},
+                        {name: "Die Warenkonten", path: "res/docs/subjects/finance/solutions/die_warenkonten_l.pdf"},
+                        {name: "Kapitalerträge & Verrechnungssteuer", path: "res/docs/subjects/finance/solutions/kapitalertraege_verrechnungssteuer_l.pdf"},
+                        {name: "Kontenrahmen & Kontenplan", path: "res/docs/subjects/finance/solutions/kontenrahmen_kontenplan_l.pdf"},
+                        {name: "Spezielle Probleme", path: "res/docs/subjects/finance/solutions/spezielle_probleme_l.pdf"}
+                    ]}/>
+                    <br/>
+                    <Typography variant="h6" gutterBottom>
+                        Band 3
+                    </Typography>
+                    <DocumentContainer children={[
+                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_4.pdf"},
+                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_5.pdf"},
+                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_9.pdf"},
+                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_10_1.pdf"},
+                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_10_2.pdf"},
+                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_11.pdf"},
+                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_12_1.pdf"},
+                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_12_2.pdf"},
+                        {name: "Beleg & Kontierung", path: "res/docs/subjects/finance/book/band 3/frw_band_3_kapitel_12_3.pdf"}
                     ]}/>
                 </div>
             </Subject>
