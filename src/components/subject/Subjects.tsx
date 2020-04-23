@@ -143,8 +143,15 @@ export default function Subjects() {
                     ]}/>
                 </div>
             </Subject>
-            <Subject name={"Wirtschaft und Recht"} expanded={expanded} handleChange={handleChange} disabled>
+            <Subject name={"Wirtschaft und Recht"} expanded={expanded} handleChange={handleChange}>
                 <div style={{width: '100%'}}>
+                    <Typography variant="h6" gutterBottom>
+                        VWL
+                    </Typography>
+                    <DocumentContainer children={[
+                        {name: "Volkswirtschaftslehre", path: "res/docs/subjects/economics/vwl/volkswirtschaftslehre.pdf"},
+                        {name: "Kapitel 6 - Geld und Preisstabilität", path: "res/docs/subjects/economics/vwl/k6_geld_und_preisstabilitaet.pdf"}
+                    ]}/>
                 </div>
             </Subject>
         </div>
