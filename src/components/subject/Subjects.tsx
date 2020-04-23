@@ -61,7 +61,9 @@ export default class Subjects extends React.Component<RouteComponentProps<Subjec
                                 name: "Vokabular Relations Sociales",
                                 path: "res/docs/subjects/french/vocabulaire_relations_socialies_loisirs_vie_privee.pdf"
                             },
-                            {name: "Lösungen Cours Intensif 2", path: "res/docs/subjects/french/cours_intensif_2_l.pdf"}
+                            {name: "Lösungen Cours Intensif 2", path: "res/docs/subjects/french/cours_intensif_2_l.pdf"},
+                            {name: "Delf B2", path: "res/docs/subjects/french/delf_b2.pdf"},
+                            {name: "Theorie Conditionnel", path: "res/docs/subjects/french/conditionnel_theorie.docx"}
                         ]}/>
                     </div>
                 </Subject>
