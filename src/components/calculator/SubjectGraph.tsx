@@ -16,10 +16,12 @@ import {Subjects} from "./Calculator";
 
 interface SubjectGraphProps {
     subjects: Subjects;
+    fullscreen: boolean;
 }
 
 export default function SubjectGraph(props: SubjectGraphProps) {
-    const {subjects} = props;
+    const {subjects, fullscreen} = props;
+
     const colors = ["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#03a9f4",
         "#00bcd4", "#009688", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800",
         "#ff5722", "#ff5722", "#795548", "#9e9e9e", "#607d8b"];
@@ -111,8 +113,8 @@ export default function SubjectGraph(props: SubjectGraphProps) {
     let legendType: LegendType = 'none';
 
     return (
-        <div style={{width: '90%', display: 'inline-block'}}>
-            <ResponsiveContainer aspect={16 / 9} minHeight={550}>
+        <div style={{width: fullscreen ? '95%' : '90%', display: 'inline-block'}}>
+            <ResponsiveContainer aspect={fullscreen ? 2 / 3 : 16 / 9}>
                 <LineChart data={data}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey="name"/>
@@ -123,7 +125,7 @@ export default function SubjectGraph(props: SubjectGraphProps) {
                                                                                     stroke={colors[i + 1]}
                                                                                     strokeDasharray="5 5"/>)}
                     {averageEnabled ?
-                        <Line type="monotone" dataKey="avg" name="Durchschnitt" stroke={colors[0]}/> : null}
+                        <Line type="monotone" dataKey="avg" name="Durchschnitt" stroke={colors[0]} strokeWidth={2}/> : null}
 
                     <Legend
                         payload={subs.map((s, i) => ({value: s, type: legendType, color: colors[i + 1], id: ''})).concat([{

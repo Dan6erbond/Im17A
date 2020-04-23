@@ -402,7 +402,7 @@ class Calculator extends React.Component<CalculatorProps, CalculatorState> {
                     <DialogTitle id="responsive-dialog-title">Notengraph</DialogTitle>
                     <DialogContent>
                         <div style={{textAlign: 'center'}}>
-                            <SubjectGraph subjects={subjects}/>
+                            <SubjectGraph subjects={subjects} fullscreen={fullscreen}/>
                         </div>
                     </DialogContent>
                     <DialogActions>
