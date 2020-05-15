@@ -7,4 +7,4 @@
 # echo $destination
 
 # Copy-Item -Force -Recurse -Verbose $src -Destination $destination
-Copy-Item "./build/*" -Destination "./docs/" -Recurse -Force
+Copy-Item "./build/*" -Destination "../" -Recurse -Force
